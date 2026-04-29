@@ -1,13 +1,7 @@
 // "use client";
 
 // import Link from 'next/link';
-// import emailjs from '@emailjs/browser';
 // import { useRef, useState } from 'react';
-
-// // export const metadata = {
-// //   title: 'Contact Us | EduVision',
-// //   description: 'Get in touch with us. Visit our campus or contact us via phone, email, or social media.',
-// // };
 
 // // Glass Card Component
 // const GlassCard = ({ children, className = '' }) => (
@@ -37,31 +31,46 @@
 //   const form = useRef();
 //   const [loading, setLoading] = useState(false);
 
-//   const sendEmail = (e) => {
+//   // ✅ ONLY API ADDED (EmailJS removed)
+//   const sendMessage = async (e) => {
 //     e.preventDefault();
 //     setLoading(true);
 
-//     emailjs.sendForm(
-//       'service_39bm1tr',
-//       'template_bnqone5',
-//       form.current,
-//       'M5ekjFZ-y_lig9nZj' // 👈 yahan apni EmailJS public key lagani hai
-//     )
-//     .then(() => {
-//       alert("Message sent successfully!");
-//       form.current.reset();
-//       setLoading(false);
-//     })
-//     .catch((error) => {
-//       console.log(error.text);
-//       alert("Failed to send message");
-//       setLoading(false);
-//     });
+//     const formData = {
+//       name: form.current.name.value,
+//       email: form.current.email.value,
+//       subject: form.current.subject.value,
+//       message: form.current.message.value,
+//     };
+
+//     try {
+//       const res = await fetch('http://localhost:5000/api/contact', {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify(formData),
+//       });
+
+//       const data = await res.json();
+
+//       if (data.success) {
+//         alert("Message sent successfully!");
+//         form.current.reset();
+//       } else {
+//         alert("Failed to send message");
+//       }
+
+//     } catch (err) {
+//       alert("Server error");
+//     }
+
+//     setLoading(false);
 //   };
 
 //   return (
 //     <main className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900/30 to-gray-900 pt-20">
-      
+
 //       {/* Hero Section */}
 //       <section className="py-12">
 //         <div className="container mx-auto px-4 text-center max-w-2xl">
@@ -82,7 +91,7 @@
 //           <GlassCard className="p-6">
 //             <h2 className="text-2xl font-bold text-white mb-4">Send Message</h2>
 
-//             <form ref={form} onSubmit={sendEmail} className="space-y-4">
+//             <form ref={form} onSubmit={sendMessage} className="space-y-4">
 
 //               <input
 //                 name="name"
@@ -155,6 +164,24 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 "use client";
 
 import Link from 'next/link';
@@ -185,10 +212,12 @@ const ContactInfo = ({ icon, title, info, link }) => (
 );
 
 export default function ContactPage() {
+
+  const API = process.env.NEXT_PUBLIC_API_URL;
+
   const form = useRef();
   const [loading, setLoading] = useState(false);
 
-  // ✅ ONLY API ADDED (EmailJS removed)
   const sendMessage = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -201,7 +230,7 @@ export default function ContactPage() {
     };
 
     try {
-      const res = await fetch('http://localhost:5000/api/contact', {
+      const res = await fetch(`${API}/api/contact`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -228,7 +257,6 @@ export default function ContactPage() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900/30 to-gray-900 pt-20">
 
-      {/* Hero Section */}
       <section className="py-12">
         <div className="container mx-auto px-4 text-center max-w-2xl">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
@@ -240,11 +268,9 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Content */}
       <section className="pb-20">
         <div className="container mx-auto px-4 grid lg:grid-cols-2 gap-8">
 
-          {/* LEFT FORM */}
           <GlassCard className="p-6">
             <h2 className="text-2xl font-bold text-white mb-4">Send Message</h2>
 
@@ -293,7 +319,6 @@ export default function ContactPage() {
             </form>
           </GlassCard>
 
-          {/* RIGHT INFO */}
           <div className="space-y-6">
 
             <GlassCard className="p-6">
