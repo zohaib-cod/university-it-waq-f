@@ -39,7 +39,7 @@ export default function NavbarHero() {
         >
           {/* Logo */}
           <Link href="/" style={{ fontSize: "20px", fontWeight: "bold", color: "white", textDecoration: "none" }}>
-            LOGO
+            EduVision
           </Link>
 
           {/* Desktop Links */}
